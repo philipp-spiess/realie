@@ -1,6 +1,6 @@
 var redisInfo = {
   port: "10577",
-  host: "67ba1406.dotcloud.com",
+  host: "redis@67ba1406.dotcloud.com",
   pw: "SWfkK94ltTXsRUcHeByW"
 };
 
@@ -28,6 +28,8 @@ var socketio = require('socket.io'),
   changeset = 0,
   chat = new Array(),
   users = new Array();
+
+redis.debug_mode = true;
 
 var _insert_lock = false;
 global.app = null;
@@ -80,8 +82,9 @@ function parseLineStore(line) {
   };
   return retVal;
 };
-
+  sys.puts('ahmm');
 redis_cli.auth(redisInfo.pw, function() {
+  sys.puts('hmm');
   redis_cli.zrange(
     storage_key
    ,'0'
