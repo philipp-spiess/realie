@@ -99,11 +99,11 @@ var DIFF_EQUAL = 0;
  */
 diff_match_patch.prototype.diff_main = function(text1, text2, opt_checklines) {
   // Check for equality (speedup)
-  if (text1 == text2) {
+  if (text1 === text2) {
     return [[DIFF_EQUAL, text1]];
   }
 
-  if (typeof opt_checklines == 'undefined') {
+  if (typeof opt_checklines === 'undefined') {
     opt_checklines = true;
   }
   var checklines = opt_checklines;
@@ -603,26 +603,26 @@ diff_match_patch.prototype.diff_path2 = function(v_map, text1, text2) {
  */
 diff_match_patch.prototype.diff_commonPrefix = function(text1, text2) {
   // Quick check for common null cases.
+  // TODO: what if text1 is 0?
   if (!text1 || !text2 || text1.charCodeAt(0) !== text2.charCodeAt(0)) {
     return 0;
   }
   // Binary search.
   // Performance analysis: http://neil.fraser.name/news/2007/10/09/
-  var pointermin = 0;
-  var pointermax = Math.min(text1.length, text2.length);
-  var pointermid = pointermax;
-  var pointerstart = 0;
-  while (pointermin < pointermid) {
-    if (text1.substring(pointerstart, pointermid) ==
-        text2.substring(pointerstart, pointermid)) {
-      pointermin = pointermid;
-      pointerstart = pointermin;
+  var pointerMin = 0;
+  var pointerMax = Math.min(text1.length, text2.length);
+  var pointerMid = pointerMax;
+  var pointerStart = 0;
+  while (pointerMin < pointerMid) {
+    if (text1.substring(pointerStart, pointerMid) ===
+        text2.substring(pointerStart, pointerMid)) {
+      pointerStart = pointerMin = pointerMid;
     } else {
-      pointermax = pointermid;
+      pointerMax = pointerMid;
     }
-    pointermid = Math.floor((pointermax - pointermin) / 2 + pointermin);
+    pointerMid = Math.floor((pointerMax - pointerMin) / 2 + pointerMin);
   }
-  return pointermid;
+  return pointerMid;
 };
 
 
