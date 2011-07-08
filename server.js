@@ -1,6 +1,6 @@
 var redisInfo = {
   port: "10578",
-  host: "redis:SWfkK94ltTXsRUcHeByW@67ba1406.dotcloud.com",
+  host: "67ba1406.dotcloud.com",
   pw: "SWfkK94ltTXsRUcHeByW"
 };
 
@@ -9,6 +9,7 @@ var socketio = require('socket.io'),
   sys = require('sys'),
   redis = require('redis'),
   redis_cli = redis.createClient(redisInfo.port, redisInfo.host),
+  //redis_cli = redis.createClient(),
   fs = require('fs'),
   ejs = require('ejs'),
   url = require('url'),
@@ -18,7 +19,7 @@ var socketio = require('socket.io'),
   dmp = new dmpmod.diff_match_patch();
   html_file_pad = fs.readFileSync(__dirname + '/views/pad.html.ejs', 'utf8'),
   html_file_layout = fs.readFileSync(__dirname + '/views/layout.ejs', 'utf8'),
-  storage_key = 'coolio',
+  storage_key = 'crewlog',
   local_shadow = {},
   local_shadow_order = [],
   user_count = 0;
@@ -28,8 +29,6 @@ var socketio = require('socket.io'),
   changeset = 0,
   chat = new Array(),
   users = new Array();
-
-redis.debug_mode = true;
 
 var _insert_lock = false;
 global.app = null;
@@ -82,9 +81,8 @@ function parseLineStore(line) {
   };
   return retVal;
 };
-  sys.puts('ahmm');
+
 redis_cli.auth(redisInfo.pw, function() {
-  sys.puts('hmm');
   redis_cli.zrange(
     storage_key
    ,'0'
