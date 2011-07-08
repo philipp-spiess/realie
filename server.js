@@ -1,8 +1,14 @@
+var redisInfo = {
+  port: "10577",
+  host: "redis@67ba1406.dotcloud.com",
+  pw: "SWfkK94ltTXsRUcHeByW"
+};
+
 var socketio = require('socket.io'),
   http = require('http'),
   sys = require('sys'),
   redis = require('redis'),
-  redis_cli = redis.createClient();
+  redis_cli = redis.createClient(redisInfo.port, redisInfo.host),
   fs = require('fs'),
   ejs = require('ejs'),
   url = require('url'),
@@ -75,27 +81,30 @@ function parseLineStore(line) {
   return retVal;
 };
 
-redis_cli.zrange(
-  storage_key
- ,'0'
- ,'-1'
- ,'WITHSCORES'
- ,function(err, replies) {
-    var snapshot_html = [], cur_value, cur_score;
-    for (var idx=0; idx<replies.length; idx++) {
-      if (idx %2 !== 0) {
-        cur_score = replies[idx];
-        local_shadow[cur_score] = parseLineStore(cur_value).text;
-        sys.puts(local_shadow[cur_score]);
-        local_shadow_order.push(cur_score - 0);
-      }
-      else {
-        cur_value = replies[idx];
-      } 
-    };
-    initServer();
-  }
-);
+redis_cli.auth(redisInfo.pw, function() {
+  redis_cli.zrange(
+    storage_key
+   ,'0'
+   ,'-1'
+   ,'WITHSCORES'
+   ,function(err, replies) {
+      var snapshot_html = [], cur_value, cur_score;
+      for (var idx=0; idx<replies.length; idx++) {
+        if (idx %2 !== 0) {
+          cur_score = replies[idx];
+          local_shadow[cur_score] = parseLineStore(cur_value).text;
+          sys.puts(local_shadow[cur_score]);
+          local_shadow_order.push(cur_score - 0);
+        }
+        else {
+          cur_value = replies[idx];
+        } 
+      };
+      initServer();
+    }
+  );
+});
+
 
 
 // find the start value that score falls between in local_shadow_order
