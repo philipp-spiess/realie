@@ -1,6 +1,6 @@
 var redisInfo = {
-  port: "10577",
-  host: "redis@67ba1406.dotcloud.com",
+  port: "10578",
+  host: "redis:SWfkK94ltTXsRUcHeByW@67ba1406.dotcloud.com",
   pw: "SWfkK94ltTXsRUcHeByW"
 };
 
