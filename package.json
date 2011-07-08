@@ -1,0 +1,17 @@
+{
+  "name" : "crewlog",
+  "version" : "0.0.1",
+  "repository" : {},
+  "directories" : {
+
+  },
+  "engines": {
+    "node" : "0.4.5"
+  },
+  "dependencies": {
+    "redis" : "0.6.6",
+    "ejs" : "0.4.3",
+    "socket.io" : "0.7.6",
+    "diff_match_patch" : "0.1.1"
+  }
+}
