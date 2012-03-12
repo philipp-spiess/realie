@@ -1,42 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>crewlog</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="imagetoolbar" content="no" />
-    <meta name="distribution" content="all" />
-    <meta name="robots" content="all" />
-    <meta name="resource-type" content="document" />
-    <meta name="MSSmartTagsPreventParsing" content="true" />
+    <meta charset="utf-8">
+    <title>realie</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <script type="text/javascript" src="/javascripts/jquery.js"></script>
-    <script type="text/javascript" src="/javascripts/web_worker.js"></script>
-    <script type="text/javascript" src="/javascripts/diff_match_patch_uncompressed.js"></script>
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script> 
-    <script type="text/javascript" src="/javascripts/prettify.js"></script>
-    <script type="text/javascript" src="/javascripts/jquery.timers.js"></script>
-    <script type="text/javascript" src="/javascripts/jquery.color.js"></script>
-    <script type="text/javascript" src="/javascripts/application.js"></script>
-    <link rel="stylesheet" href="/stylesheets/initial.css" type="text/css" />
-    <link rel="stylesheet" href="/stylesheets/application.css" type="text/css" />
-    <link type="text/css" rel="stylesheet" href="/stylesheets/prettify.css"></link>
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/application.css">
 
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="/js/jquery.js"></script>
+    <script src="/js/web_worker.js"></script>
+    <script src="/js/diff_match_patch_uncompressed.js"></script>
+    <script src="/socket.io/socket.io.js"></script> 
+    <script src="/js/jquery.timers.js"></script>
+    <script src="/js/jquery.color.js"></script>
+    <script src="/js/application.js"></script>
+
+    <script src="/js/ace/ace.js"></script>
+    <script src="/js/ace/theme-clouds.js"></script>
+    <script src="/js/ace/mode-javascript.js"></script>
   </head>
   <body>
-    <div id="container">
-      <div id="header">
-        <div id="logo"><a href="./index.html" title="Nodepad">crewlog</a></div>
-        <ul id="status">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Realie</a>
+          <div class="nav-collapse">
+            <ul class="nav" id="status">
 
-        </ul>
+            </ul>
+          </div>
+        </div>
       </div>
-      <!-- /header -->
+    </div>
       
+    <div class="container">
       <%- content %>
-
-      <div id="footer">
-        MIT Licensed. 2010
-      </div>
     </div>
   </body>
 </html>
