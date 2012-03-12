@@ -1,4 +1,0 @@
-www:
-  type: nodejs
-db:
-  type: redis

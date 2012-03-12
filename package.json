@@ -1,18 +1,15 @@
 {
-  "name" : "crewlog",
-  "version" : "0.0.1",
-  "repository" : {},
-  "directories" : {
-
-  },
-  "engines": {
-    "node" : "0.4.5"
+  "name" :      "realie",
+  "version" :   "0.0.1",
+  "author":     "philipp-spiess",
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com:philipp-spiess/realie.git"
   },
   "dependencies": {
-    "redis" : "0.6.6",
-    "ejs" : "0.4.3",
-    "socket.io" : "0.7.6",
-    "diff_match_patch" : "0.1.1",
-    "hiredis" : "0.1.12"
+    "redis" :             ">=0.7.1",
+    "ejs" :               ">=0.6.1",
+    "socket.io" :         ">=0.9.0",
+    "diff_match_patch" :  ">=0.1.1"
   }
 }

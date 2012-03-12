@@ -1,15 +1,8 @@
-var redisInfo = {
-  port: "10578",
-  host: "67ba1406.dotcloud.com",
-  pw: "SWfkK94ltTXsRUcHeByW"
-};
-
 var socketio = require('socket.io'),
   http = require('http'),
-  sys = require('sys'),
+  util = require('util'),
   redis = require('redis'),
-  redis_cli = redis.createClient(redisInfo.port, redisInfo.host),
-  //redis_cli = redis.createClient(),
+  redis_cli = redis.createClient(),
   fs = require('fs'),
   ejs = require('ejs'),
   url = require('url'),
@@ -19,7 +12,6 @@ var socketio = require('socket.io'),
   dmp = new dmpmod.diff_match_patch();
   html_file_pad = fs.readFileSync(__dirname + '/views/pad.html.ejs', 'utf8'),
   html_file_layout = fs.readFileSync(__dirname + '/views/layout.ejs', 'utf8'),
-  storage_key = 'crewlog',
   local_shadow = {},
   local_shadow_order = [],
   user_count = 0;
@@ -81,7 +73,7 @@ function parseLineStore(line) {
   };
   return retVal;
 };
-
+/*
 redis_cli.auth(redisInfo.pw, function() {
   redis_cli.zrange(
     storage_key
@@ -94,7 +86,7 @@ redis_cli.auth(redisInfo.pw, function() {
         if (idx %2 !== 0) {
           cur_score = replies[idx];
           local_shadow[cur_score] = parseLineStore(cur_value).text;
-          sys.puts(local_shadow[cur_score]);
+          util.puts(local_shadow[cur_score]);
           local_shadow_order.push(cur_score - 0);
         }
         else {
@@ -104,8 +96,9 @@ redis_cli.auth(redisInfo.pw, function() {
       initServer();
     }
   );
-});
+});*/
 
+initServer();
 
 
 // find the start value that score falls between in local_shadow_order
@@ -192,7 +185,7 @@ function initServer() {
   io = socketio.listen(app);
   io.set('log level', 0);
   io.sockets.on('connection', function(socket) {
-    sys.puts("opened connection: " + socket);  
+    util.puts("opened connection: " + socket);  
     var self = socket;
     current_user_id = socket.user_id = ++user_count;  
     users.push(socket.user_id);
@@ -209,7 +202,7 @@ function initServer() {
 
     socket.on('snapshot', function(data) {
       // TODO: snapshot
-      sys.puts(serialized_message);
+      util.puts(serialized_message);
       main_store.set('pad-snapshot', serialized_message, function(){});
     });
     socket.on('playback', function() {
@@ -269,8 +262,8 @@ function initServer() {
         });
         local_shadow[newUUID] = oData.data.message.content;
         local_shadow_order.splice(getShadowIdx(newUUID), 0, newUUID);
-        sys.puts(JSON.stringify(local_shadow));
-        sys.puts(JSON.stringify(local_shadow_order));
+        util.puts(JSON.stringify(local_shadow));
+        util.puts(JSON.stringify(local_shadow_order));
         socket.broadcast.emit('add line', data);
       });
       var uuid  = msg['uuid'];
@@ -308,7 +301,7 @@ function initServer() {
       }
     });
   });
-  app.listen(8080);
+  app.listen(8000);
 };
 
 function log(data){
@@ -340,7 +333,7 @@ var redisAddLine = function(
    ,function(err, replies) {
       if (!replies || replies.length === 0) {
         var score = (start_score + end_score)/2;
-        sys.puts(score);
+        util.puts(score);
         redis_cli.zadd(storage_key, score, generateUUID() + ':' + content, 
           function() { 
             unlockInserts();
